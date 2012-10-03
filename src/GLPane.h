@@ -1,6 +1,16 @@
 #ifndef _CGLPANE_H_
 #define _CGLPANE_H_
 
+#include <cv.h>
+
+#ifdef __WXMAC__
+    #include "OpenGL/glu.h"
+    #include "OpenGL/gl.h"
+#else
+    #include <GL/glu.h>
+    #include <GL/gl.h>
+#endif
+
 #include <wx/wx.h>
 #include <wx/glcanvas.h>
 
@@ -19,9 +29,12 @@ class CGLPane: public wxGLCanvas
 
     private:
         wxGLContext* m_pContext;
+        cv::Mat m_cvOutputImage;
+        GLuint m_nOutputTexture;
 
     public:
         void Prepare2DViewport();
+        void SetOutputImage(cv::Mat& cvImage);
 
         void OnRender(wxPaintEvent& evt);
         void OnResized(wxSizeEvent& evt);

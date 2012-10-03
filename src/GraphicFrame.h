@@ -26,6 +26,7 @@ class CGraphicFrame: public wxFrame {
         DECLARE_EVENT_TABLE()
 
     public:
+        bool LoadImage(wxString& strFile);
 };
 
 #endif /* _CGRAPHICFRAME_H_ */

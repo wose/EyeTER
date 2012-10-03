@@ -1,6 +1,9 @@
 #include "GraphicFrame.h"
 #include "GLPane.h"
 
+#include <cv.h>
+#include <highgui.h>
+
 BEGIN_EVENT_TABLE(CGraphicFrame, wxFrame)
 END_EVENT_TABLE()
 
@@ -25,4 +28,15 @@ CGraphicFrame::CGraphicFrame(wxWindow* pParent, wxWindowID id,
 }
 
 CGraphicFrame::~CGraphicFrame() {
+}
+
+bool CGraphicFrame::LoadImage(wxString& strFile) {
+    cv::Mat cvImage;
+    cvImage= cv::imread(std::string(strFile.mb_str()));
+    if(cvImage.empty())
+        return false;
+
+    m_pGLPane->SetOutputImage(cvImage);
+    GetStatusBar()->SetStatusText(strFile);
+    return true;
 }

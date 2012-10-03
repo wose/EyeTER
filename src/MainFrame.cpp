@@ -149,6 +149,8 @@ void CMainFrame::OnOpenImage(wxCommandEvent& evt) {
         return;
     wxString strImagePath= OpenImageDlg.GetPath();
     wxLogDebug(strImagePath);
+    if(!m_pGraphicFrame->LoadImage(strImagePath))
+        wxLogMessage(_("Failed to load image"));
 }
 
 void CMainFrame::OnViewLog(wxCommandEvent& evt) {

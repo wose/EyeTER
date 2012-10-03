@@ -15,6 +15,7 @@ CGLPane::CGLPane(wxWindow* pParent, wxWindowID id,
 }
 
 CGLPane::~CGLPane() {
+    glDeleteTextures(1, &m_nOutputTexture);
     if(m_pContext)
         delete m_pContext;
     m_pContext= NULL;
@@ -32,26 +33,28 @@ void CGLPane::OnRender(wxPaintEvent& evt) {
     Prepare2DViewport();
 
     glLoadIdentity();
-	
+
+	glEnable(GL_TEXTURE_2D);
+
     int nWidth= GetSize().x;
     int nHeight= GetSize().y;
 
-    glColor4f(1, 1, 1, 1);
-    glBegin(GL_QUADS);
-    glVertex3f(0, 0, 0);
-    glVertex3f(nWidth, 0, 0);
-    glVertex3f(nWidth, nHeight, 0);
-    glVertex3f(0, nHeight, 0);
-    glEnd();
-	
-    // red square
-    glColor4f(1, 0, 0, 1);
-    glBegin(GL_QUADS);
-    glVertex3f(nWidth / 8, nHeight / 3, 0);
-    glVertex3f(nWidth * 7 / 8, nHeight / 3, 0);
-    glVertex3f(nWidth * 7 / 8, nHeight * 2 / 3, 0);
-    glVertex3f(nWidth / 8, nHeight * 2 / 3, 0);
-    glEnd();
+    if(!m_cvOutputImage.empty()) {
+      	glBindTexture(GL_TEXTURE_2D, m_nOutputTexture);
+        
+        glBegin(GL_QUADS);
+        glTexCoord2f(0, 0);
+        glVertex2f(0, 0);
+        glTexCoord2f(1, 0);
+        glVertex2f(nWidth, 0);
+        glTexCoord2f(1, 1);
+        glVertex2f(nWidth, nHeight);
+        glTexCoord2f(0, 1);
+        glVertex2f(0, nHeight);
+        glEnd();
+
+    	glDisable(GL_TEXTURE_2D);
+    }
 
     glFlush();
     SwapBuffers();
@@ -67,7 +70,7 @@ void CGLPane::Prepare2DViewport() {
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
     glViewport(0, 0, GetSize().x, GetSize().y);
     glMatrixMode(GL_PROJECTION);
@@ -76,4 +79,20 @@ void CGLPane::Prepare2DViewport() {
     gluOrtho2D(0, GetSize().x, GetSize().y, 0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+}
+
+void CGLPane::SetOutputImage(cv::Mat& cvImage) {
+    m_cvOutputImage= cvImage;
+
+    glGenTextures(1, &m_nOutputTexture);
+
+    glBindTexture(GL_TEXTURE_2D, m_nOutputTexture);               
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S , GL_REPEAT );
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+
+    glTexImage2D(GL_TEXTURE_2D, 0, m_cvOutputImage.channels(), m_cvOutputImage.cols, 
+        m_cvOutputImage.rows, 0, GL_BGR, GL_UNSIGNED_BYTE,
+        m_cvOutputImage.data);    
 }
