@@ -5,6 +5,9 @@ BEGIN_EVENT_TABLE(CGLPane, wxGLCanvas)
     EVT_PAINT(CGLPane::OnRender)
 END_EVENT_TABLE()
 
+using namespace std;
+using namespace cv;
+
 CGLPane::CGLPane(wxWindow* pParent, wxWindowID id,
     int* pAttribList, const wxPoint& pos, const wxSize& Size, long nStyle,
     const wxString& strName, const wxPalette& palette)
@@ -42,15 +45,20 @@ void CGLPane::OnRender(wxPaintEvent& evt) {
     if(!m_cvOutputImage.empty()) {
       	glBindTexture(GL_TEXTURE_2D, m_nOutputTexture);
         
+        float fScale= min((float)nWidth / m_cvOutputImage.cols,
+            (float)nHeight / m_cvOutputImage.rows);
+        float fX= (nWidth - m_cvOutputImage.cols * fScale) / 2;
+        float fY= (nHeight - m_cvOutputImage.rows * fScale) / 2;
+
         glBegin(GL_QUADS);
         glTexCoord2f(0, 0);
-        glVertex2f(0, 0);
+        glVertex2f(fX, fY);
         glTexCoord2f(1, 0);
-        glVertex2f(nWidth, 0);
+        glVertex2f(nWidth - fX, fY);
         glTexCoord2f(1, 1);
-        glVertex2f(nWidth, nHeight);
+        glVertex2f(nWidth - fX, nHeight - fY);
         glTexCoord2f(0, 1);
-        glVertex2f(0, nHeight);
+        glVertex2f(fX, nHeight - fY);
         glEnd();
 
     	glDisable(GL_TEXTURE_2D);
@@ -81,7 +89,7 @@ void CGLPane::Prepare2DViewport() {
     glLoadIdentity();
 }
 
-void CGLPane::SetOutputImage(cv::Mat& cvImage) {
+void CGLPane::SetOutputImage(Mat& cvImage) {
     m_cvOutputImage= cvImage;
 
     glGenTextures(1, &m_nOutputTexture);

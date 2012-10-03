@@ -7,6 +7,9 @@
 BEGIN_EVENT_TABLE(CGraphicFrame, wxFrame)
 END_EVENT_TABLE()
 
+using namespace std;
+using namespace cv;
+
 CGraphicFrame::CGraphicFrame(wxWindow* pParent, wxWindowID id,
     const wxString& strTitle, const wxPoint& pos, const wxSize& Size,
     long  nStyle)
@@ -31,8 +34,8 @@ CGraphicFrame::~CGraphicFrame() {
 }
 
 bool CGraphicFrame::LoadImage(wxString& strFile) {
-    cv::Mat cvImage;
-    cvImage= cv::imread(std::string(strFile.mb_str()));
+    Mat cvImage;
+    cvImage= imread(string(strFile.mb_str()));
     if(cvImage.empty())
         return false;
 
