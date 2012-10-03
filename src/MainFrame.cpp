@@ -1,8 +1,10 @@
+#include "config.h"
 #include "MainFrame.h"
 #include "GraphicFrame.h"
 
 #include <wx/stc/stc.h>
 #include <wx/log.h>
+#include <wx/aboutdlg.h>
 
 BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
     EVT_MENU(ID_FileNew,        CMainFrame::OnNew)
@@ -118,8 +120,15 @@ void CMainFrame::OnExit(wxCommandEvent& evt) {
 }
 
 void CMainFrame::OnAbout(wxCommandEvent& evt) {
-    wxMessageBox(_("EyeTER\n\nfork me on Github\nhttp://github.com/wose/EyeTER"),
-        _("About"), wxOK, this);
+    wxAboutDialogInfo info;
+
+    info.SetName(_("EyeTER"));
+    info.SetVersion(_(GIT_VERSION));
+    info.SetDescription(_("OpenCV Prototyping Environment"));
+    info.SetCopyright(_T("(C) 2012 Sebastian Woetzel <wose (at) zuendmasse.de>"));
+    info.SetWebSite(_("http://github.com/wose/EyeTER"), _("Fork me on github!"));
+
+    wxAboutBox(info);
 }
 
 void CMainFrame::OnNew(wxCommandEvent& evt) {

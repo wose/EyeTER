@@ -1,5 +1,6 @@
 #include <wx/wx.h>
 
+#include "config.h"
 #include "EyeTERApp.h"
 #include "MainFrame.h"
 
