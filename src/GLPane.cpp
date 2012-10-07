@@ -13,6 +13,7 @@ CGLPane::CGLPane(wxWindow* pParent, wxWindowID id,
     const wxString& strName, const wxPalette& palette)
     : wxGLCanvas(pParent, id, pAttribList, pos, Size, nStyle, strName, palette)
 {
+    m_fZoom= 1.0;
     m_pContext= new wxGLContext(this);
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 }
@@ -44,24 +45,26 @@ void CGLPane::OnRender(wxPaintEvent& evt) {
 
     if(!m_cvOutputImage.empty()) {
       	glBindTexture(GL_TEXTURE_2D, m_nOutputTexture);
-        
-        float fScale= min((float)nWidth / m_cvOutputImage.cols,
+
+        float fAspectRatio= min((float)nWidth / m_cvOutputImage.cols,
             (float)nHeight / m_cvOutputImage.rows);
-        float fX= (nWidth - m_cvOutputImage.cols * fScale) / 2;
-        float fY= (nHeight - m_cvOutputImage.rows * fScale) / 2;
+        float fX= (nWidth - m_cvOutputImage.cols * fAspectRatio) / 2;
+        float fY= (nHeight - m_cvOutputImage.rows * fAspectRatio) / 2;
+
+        wxLogDebug(_("fAspectRatio: %.3f BorderX: %.3f BorderY: %.3f"),
+            fAspectRatio, fX, fY);
+        glTranslatef(nWidth/2, nHeight/2, 0);
+        glScalef(m_fZoom, m_fZoom, 1);
+        glTranslatef(-nWidth/2, -nHeight/2, 0);
 
         glBegin(GL_QUADS);
-        glTexCoord2f(0, 0);
-        glVertex2f(fX, fY);
-        glTexCoord2f(1, 0);
-        glVertex2f(nWidth - fX, fY);
-        glTexCoord2f(1, 1);
-        glVertex2f(nWidth - fX, nHeight - fY);
-        glTexCoord2f(0, 1);
-        glVertex2f(fX, nHeight - fY);
+        glTexCoord2f(0, 0); glVertex2f(fX,          fY);
+        glTexCoord2f(1, 0); glVertex2f(nWidth - fX, fY);
+        glTexCoord2f(1, 1); glVertex2f(nWidth - fX, nHeight - fY);
+        glTexCoord2f(0, 1); glVertex2f(fX,          nHeight - fY);
         glEnd();
 
-    	glDisable(GL_TEXTURE_2D);
+        glDisable(GL_TEXTURE_2D);
     }
 
     glFlush();
@@ -73,7 +76,7 @@ void CGLPane::OnResized(wxSizeEvent& evt) {
 }
 
 void CGLPane::Prepare2DViewport() {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black Background
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_BLEND);
@@ -103,4 +106,20 @@ void CGLPane::SetOutputImage(Mat& cvImage) {
     glTexImage2D(GL_TEXTURE_2D, 0, m_cvOutputImage.channels(), m_cvOutputImage.cols, 
         m_cvOutputImage.rows, 0, GL_BGR, GL_UNSIGNED_BYTE,
         m_cvOutputImage.data);    
+}
+
+void CGLPane::ZoomIn() {
+    m_fZoom+= m_fZoomStep;
+    if(m_fZoom > m_cfZoomMax)
+        m_fZoom= m_cfZoomMax;
+    Refresh();
+    wxLogDebug(_("Zoom: %.2f"), m_fZoom);
+    }
+
+void CGLPane::ZoomOut() {
+    m_fZoom-= m_fZoomStep;
+    if(m_fZoom < m_cfZoomMin)
+        m_fZoom= m_cfZoomMin;
+    Refresh();
+    wxLogDebug(_("Zoom: %.2f"), m_fZoom);
 }

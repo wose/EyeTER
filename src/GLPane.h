@@ -32,9 +32,16 @@ class CGLPane: public wxGLCanvas
         cv::Mat m_cvOutputImage;
         GLuint m_nOutputTexture;
 
+        float m_fZoom;
+        static const float m_fZoomStep= 0.1;
+        static const float m_cfZoomMin= 0.1;
+        static const float m_cfZoomMax= 10.0;
+
     public:
         void Prepare2DViewport();
         void SetOutputImage(cv::Mat& cvImage);
+        void ZoomIn();
+        void ZoomOut();
 
         void OnRender(wxPaintEvent& evt);
         void OnResized(wxSizeEvent& evt);

@@ -18,14 +18,17 @@ class CGraphicFrame: public wxFrame {
 
     private:
         enum {
-            ID_FOO= wxID_HIGHEST+1
+            ID_ZoomIn= wxID_HIGHEST+1,
+            ID_ZoomOut
         };
         
         CGLPane* m_pGLPane;
-
+        wxToolBar* m_pToolBar;
         DECLARE_EVENT_TABLE()
 
     public:
+        void OnZoomIn(wxCommandEvent& evt);
+        void OnZoomOut(wxCommandEvent& evt);
         bool LoadImage(wxString& strFile);
 };
 
