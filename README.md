@@ -1,4 +1,4 @@
-EyeTER - Eye The Evil Rauhfasertapete
+EyeTER - Eye The Evil Raufasertapete
 =====================================
 
 EyeTER will provide an environment to prototype computer vision functions using
