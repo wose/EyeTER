@@ -1,8 +1,14 @@
-set(SRC
-EyeTERApp.cpp
-MainFrame.cpp
-GraphicFrame.cpp
-GLPane.cpp)
+set(EyeTER_SRC
+  main.cpp
+  MainWindow.cpp
+  ProgramEditorWidget.cpp
+)
 
-add_executable( EyeTER ${SRC})
-target_link_libraries( EyeTER ${OpenCV_LIBS} ${wxWidgets_LIBRARIES} ${OpenGL_LIBS})
+set(EyeTER_HDR
+  ../include/MainWindow.h
+  ../include/ProgramEditorWidget.h
+)
+
+add_executable( EyeTER ${EyeTER_SRC} ${EyeTER_HDR} )
+qt5_use_modules( EyeTER Widgets )
+target_link_libraries( EyeTER ${OpenCV_LIBS} ${OpenGL_LIBS} ${QSCINTILLA2_LIBRARY})

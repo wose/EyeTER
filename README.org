@@ -1,0 +1,30 @@
+* EyeTER - Eye The Evil Raufasertapete
+
+EyeTER will provide an environment to prototype computer vision functions using
+a not yet implemented very simple script language.
+EyeTER uses Qt5 and OpenGL for interacting with the user and OpenCV as computer
+vision library.
+
+** Hacking it
+
+#+BEGIN_EXAMPLE
+$ git clone https://github.com/wose/EyeTER.git
+$ cd EyeTER
+$ git submodule update --init
+...
+Hacking...
+...
+$ mkdir build
+$ cd build
+$ cmake -D CMAKE_BUILD_TYPE=Debug ../
+#+END_EXAMPLE
+
+** Dependencies
+   - OpenGL
+   - OpenCV
+   - Qt5
+   - CMake
+
+** Credits
+Icons made by Freepik, Sarfraz Shoukat, Google from [[http://www.flaticon.com][Flaticon]] are
+licensed by [[http://creativecommons.org/licenses/by/3.0/][Creative Commons BY 3.0]].

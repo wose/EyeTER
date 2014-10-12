@@ -1,0 +1,3 @@
+[submodule "src/libeyeter"]
+	path = src/libeyeter
+	url = https://github.com/wose/libeyeter.git
