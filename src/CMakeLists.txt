@@ -11,4 +11,4 @@ set(EyeTER_HDR
 
 add_executable( EyeTER ${EyeTER_SRC} ${EyeTER_HDR} )
 qt5_use_modules( EyeTER Widgets )
-target_link_libraries( EyeTER ${OpenCV_LIBS} ${OpenGL_LIBS} ${QSCINTILLA2_LIBRARY})
+target_link_libraries( EyeTER eyeter ${OpenCV_LIBS} ${OpenGL_LIBS} ${QSCINTILLA2_LIBRARY})

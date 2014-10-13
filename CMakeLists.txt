@@ -14,11 +14,12 @@ file(COPY ${CMAKE_SOURCE_DIR}/res
 
 find_package(Qt5Widgets)
 find_package(QScintilla)
-find_package(OpenGL REQUIRED) 
+find_package(OpenGL REQUIRED)
 find_package(OpenCV REQUIRED)
 
 include_directories(
     include
 )
 
+add_subdirectory(src/libeyeter)
 add_subdirectory(src)
