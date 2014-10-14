@@ -1,8 +1,11 @@
 #include <QtWidgets>
 #include <QDebug>
-#include <Qsci/qsciscintilla.h>
 
+#include "Editor.h"
 #include "ProgramEditorWidget.h"
+
+namespace EyeTER {
+    namespace ui {
 
 ProgramEditorWidget::ProgramEditorWidget(QWidget* parent)
     : QWidget(parent)
@@ -64,13 +67,16 @@ void ProgramEditorWidget::onNewProcedure()
     qDebug() << "onNewProcedure()";
 }
 
-QsciScintilla* ProgramEditorWidget::createEditor()
+Editor* ProgramEditorWidget::createEditor()
 {
-    QsciScintilla* editor = new QsciScintilla(this);
+    Editor* editor = new Editor(this);
     // setup font size etc...
     return editor;
 }
 
 void ProgramEditorWidget::setProgram()
 {
+}
+
+}
 }

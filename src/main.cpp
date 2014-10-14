@@ -4,6 +4,8 @@
 
 #include "MainWindow.h"
 
+using namespace EyeTER::ui;
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);

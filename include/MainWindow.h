@@ -2,7 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <Qsci/qsciscintilla.h>
+
+namespace EyeTER {
+    namespace ui {
+
+class Editor;
 
 class MainWindow : public QMainWindow
 {
@@ -35,8 +39,9 @@ private:
     QAction* exitAct;
     QAction* aboutAct;
 
-    QsciScintilla *editor;
+    Editor *editor;
 };
 
+}
+}
 #endif // MAINWINDOW_H
-

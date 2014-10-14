@@ -4,7 +4,12 @@
 #include <Qsci/qscilexercpp.h>
 
 #include "MainWindow.h"
+
+#include "Editor.h"
 #include "ProgramEditorWidget.h"
+
+namespace EyeTER {
+    namespace ui {
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -72,47 +77,50 @@ void MainWindow::onOpen()
 
 void MainWindow::initializeEditor()
 {
-    initializeFont();
-    initializeMargin();
-    initializeCaretLine();
-    initializeLexer();
+    //initializeFont();
+    //initializeMargin();
+    //initializeCaretLine();
+    //initializeLexer();
 }
 
 void MainWindow::initializeFont()
 {
-    QFont font("Courier", 12);
-    font.setFixedPitch(true);
-    editor->setFont(font);
+    //QFont font("Courier", 12);
+    //font.setFixedPitch(true);
+    //editor->setFont(font);
 }
 
 void MainWindow::initializeMargin()
 {
-    QFontMetrics fontmetrics = QFontMetrics(editor->font());
-    editor->setMarginsFont(editor->font());
-    editor->setMarginWidth(0, fontmetrics.width(QString::number(editor->lines())) + 6);
-    editor->setMarginLineNumbers(0, true);
-    editor->setMarginsBackgroundColor(QColor("#cccccc"));
+    //QFontMetrics fontmetrics = QFontMetrics(editor->font());
+    //editor->setMarginsFont(editor->font());
+    //editor->setMarginWidth(0, fontmetrics.width(QString::number(editor->lines())) + 6);
+    //editor->setMarginLineNumbers(0, true);
+    //editor->setMarginsBackgroundColor(QColor("#cccccc"));
 
-    connect(editor, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
+    //connect(editor, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 }
 
 void MainWindow::onTextChanged()
 {
-    QFontMetrics fontmetrics = editor->fontMetrics();
-    editor->setMarginWidth(0, fontmetrics.width(QString::number(editor->lines())) + 6);
+    //QFontMetrics fontmetrics = editor->fontMetrics();
+    //editor->setMarginWidth(0, fontmetrics.width(QString::number(editor->lines())) + 6);
 }
 
 void MainWindow::initializeLexer()
 {
-    QsciLexerCPP *lexer = new QsciLexerCPP();
-    lexer->setDefaultFont(editor->font());
-    lexer->setFoldComments(true);
-    editor->setLexer(lexer);
+    //QsciLexerCPP *lexer = new QsciLexerCPP();
+    //lexer->setDefaultFont(editor->font());
+    //lexer->setFoldComments(true);
+    //editor->setLexer(lexer);
 }
 
 void MainWindow::initializeCaretLine()
 {
     // Current line visible with special background color
-    editor->setCaretLineVisible(true);
-    editor->setCaretLineBackgroundColor(QColor("#ffe4e4"));
+    //    editor->setCaretLineVisible(true);
+    // editor->setCaretLineBackgroundColor(QColor("#ffe4e4"));
+}
+
+}
 }

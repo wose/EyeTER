@@ -5,7 +5,11 @@
 
 class QToolButton;
 class QComboBox;
-class QsciScintilla;
+
+namespace EyeTER {
+    namespace ui {
+
+class Editor;
 
 class ProgramEditorWidget : public QWidget
 {
@@ -22,7 +26,7 @@ class ProgramEditorWidget : public QWidget
     void onNewProcedure();
 
  private:
-    QsciScintilla* createEditor();
+    Editor* createEditor();
  private:
     QTabWidget* tabWidget;
     QComboBox* procedureCBox;
@@ -31,4 +35,6 @@ class ProgramEditorWidget : public QWidget
     QToolButton* newProcedureBtn;
 };
 
+}
+}
 #endif
