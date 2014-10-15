@@ -31,7 +31,7 @@ Editor::Editor(QWidget *parent) : QPlainTextEdit(parent)
 int Editor::editorMarginAreaWidth()
 {
     int digits = 1;
-    int max = qMax(1, blockCount());
+    int max = qMax(1000, blockCount());
     while (max >= 10) {
         max /= 10;
         ++digits;
@@ -73,7 +73,7 @@ void Editor::highlightCurrentLine()
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
 
-        QColor lineColor = QColor(Qt::yellow).lighter(160);
+        QColor lineColor = QColor(Qt::lightGray).lighter(160);
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
@@ -88,7 +88,7 @@ void Editor::highlightCurrentLine()
 void Editor::editorMarginAreaPaintEvent(QPaintEvent *event)
 {
     QPainter painter(editorMarginArea);
-    painter.fillRect(event->rect(), Qt::lightGray);
+    painter.fillRect(event->rect(), QColor(240, 240, 240));
 
 
     QTextBlock block = firstVisibleBlock();
@@ -99,7 +99,7 @@ void Editor::editorMarginAreaPaintEvent(QPaintEvent *event)
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
-            painter.setPen(Qt::black);
+            painter.setPen(Qt::darkCyan);
             painter.drawText(0, top, editorMarginArea->width(), fontMetrics().height(),
                              Qt::AlignRight, number);
         }
