@@ -2,6 +2,7 @@
 
 #include "Editor.h"
 #include "EditorMarginArea.h"
+#include "Highlighter.h"
 
 namespace EyeTER {
     namespace ui {
@@ -13,6 +14,15 @@ Editor::Editor(QWidget *parent) : QPlainTextEdit(parent)
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateEditorMarginAreaWidth(int)));
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateEditorMarginArea(QRect,int)));
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+
+    QFont font;
+    font.setFamily("Courier");
+    font.setFixedPitch(true);
+    font.setPointSize(10);
+
+    setFont(font);
+
+    highlighter_ = new Highlighter(document());
 
     updateEditorMarginAreaWidth(0);
     highlightCurrentLine();

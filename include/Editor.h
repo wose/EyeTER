@@ -13,6 +13,7 @@ namespace EyeTER {
     namespace ui {
 
 class EditorMarginArea;;
+class Highlighter;
 
 class Editor : public QPlainTextEdit
 {
@@ -33,7 +34,8 @@ private slots:
     void updateEditorMarginArea(const QRect &, int);
 
 private:
-    QWidget *editorMarginArea;
+    QWidget* editorMarginArea;
+    Highlighter* highlighter_;
 };
 
 }

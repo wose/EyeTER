@@ -1,5 +1,6 @@
 set(EyeTER_SRC
   Editor.cpp
+  Highlighter.cpp
   main.cpp
   MainWindow.cpp
   ProgramEditorWidget.cpp
@@ -8,6 +9,7 @@ set(EyeTER_SRC
 set(EyeTER_HDR
   ../include/Editor.h
   ../include/EditorMarginArea.h
+  ../include/Highlighter.h
   ../include/MainWindow.h
   ../include/ProgramEditorWidget.h
 )
