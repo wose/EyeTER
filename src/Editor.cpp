@@ -26,7 +26,16 @@ Editor::Editor(QWidget *parent) : QPlainTextEdit(parent)
 
     QStringList completeList;
     completeList << "foobar" << "mooo" << "mookooh" << "mooooo";
+
     completer_ = new QCompleter(completeList, this);
+    QTableView* tableView = new QTableView();
+
+    tableView->setFont(font);
+    tableView->horizontalHeader()->hide();
+    tableView->verticalHeader()->hide();
+    tableView->setShowGrid(false);
+
+    completer_->setPopup(tableView);
     setCompleter(completer_);
 
     updateEditorMarginAreaWidth(0);
