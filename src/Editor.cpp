@@ -1,8 +1,10 @@
 #include <QtWidgets>
+#include <QHeaderView>
 
 #include "Editor.h"
 #include "EditorMarginArea.h"
 #include "Highlighter.h"
+#include "OperatorModel.h"
 
 namespace EyeTER {
     namespace ui {
@@ -24,18 +26,35 @@ Editor::Editor(QWidget *parent) : QPlainTextEdit(parent)
 
     highlighter_ = new Highlighter(document());
 
-    QStringList completeList;
-    completeList << "foobar" << "mooo" << "mookooh" << "mooooo";
+    OperatorModel* operatorModel = new OperatorModel(this);
 
-    completer_ = new QCompleter(completeList, this);
+    completer_ = new QCompleter(operatorModel, this);
     QTableView* tableView = new QTableView();
 
+    completer_->setCompletionRole(Qt::DisplayRole);
+    completer_->setPopup(tableView);
+
+    QPalette palette = tableView->palette();
+    palette.setColor(QPalette::Highlight, Qt::darkGray);
+    palette.setColor(QPalette::HighlightedText, Qt::white);
+    tableView->setPalette(palette);
+
+    tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableView->setFont(font);
     tableView->horizontalHeader()->hide();
     tableView->verticalHeader()->hide();
     tableView->setShowGrid(false);
 
-    completer_->setPopup(tableView);
+    tableView->resizeColumnsToContents();
+    tableView->resizeRowsToContents();
+    //    tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+    int width = 0;
+    for(int column = 0; column <= operatorModel->columnCount(); column++)
+        width = width + tableView->columnWidth(column);
+    tableView->setMinimumWidth(width);
+
     setCompleter(completer_);
 
     updateEditorMarginAreaWidth(0);
