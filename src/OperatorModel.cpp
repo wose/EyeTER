@@ -28,7 +28,7 @@ QVariant OperatorModel::data(const QModelIndex &index, int role) const
                    .arg(index.column() +1);
     } else {
         if(index.column() == 0 && role == Qt::DecorationRole)
-            return QIcon("res/icons/new-tab.png");
+            return QIcon("res/icons/function.png");
     }
 
     return QVariant();
