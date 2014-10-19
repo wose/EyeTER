@@ -31,6 +31,8 @@ public slots:
     void onOpen();
 
 private:
+    void writeSettings();
+    void readSettings();
     void closeEvent(QCloseEvent* event);
     void createActions();
     void createMenus();

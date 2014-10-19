@@ -10,7 +10,9 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-//    qDebug() << "Hello World";
+    QCoreApplication::setOrganizationName("zuendmasse");
+    QCoreApplication::setOrganizationDomain("zuendmasse.de");
+    QCoreApplication::setApplicationName("EyeTER");
 
     MainWindow mainWin;
     mainWin.show();

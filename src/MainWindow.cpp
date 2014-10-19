@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(programEditor);
     graphicWindow_ = new GraphicWindow;
     graphicWindow_->show();
+
+    readSettings();
 }
 
 MainWindow::~MainWindow()
@@ -37,8 +39,30 @@ void MainWindow::about()
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
+    writeSettings();
+
     graphicWindow_->close();
     event->accept();
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings;
+
+    settings.setValue("mainwindow/size", size());
+    settings.setValue("mainwindow/pos", pos());
+    settings.setValue("graphicwindow/size", graphicWindow_->size());
+    settings.setValue("graphicwindow/pos", graphicWindow_->pos());
+}
+
+void MainWindow::readSettings()
+{
+    QSettings settings;
+
+    resize(settings.value("mainwindow/size", QSize(400, 400)).toSize());
+    move(settings.value("mainwindow/pos", QPoint(200, 200)).toPoint());
+    graphicWindow_->resize(settings.value("graphicwindow/size", QSize(200, 200)).toSize());
+    graphicWindow_->move(settings.value("graphicwindow/pos", QPoint(0, 0)).toPoint());
 }
 
 void MainWindow::createActions()
