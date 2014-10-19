@@ -9,7 +9,7 @@ namespace EyeTER {
 OpenGLWidget::OpenGLWidget(QWidget* parent, QGLWidget* shareWidget)
     : QGLWidget(parent, shareWidget)
     , program_(0)
-    , clearColor_(Qt::cyan)
+    , clearColor_(Qt::black)
 {
 }
 

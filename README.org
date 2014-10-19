@@ -27,8 +27,8 @@ $ cmake -D CMAKE_BUILD_TYPE=Debug ../
 
 ** Credits
 Icons made by Freepik, Daniel Bruce, Elegant Themes, Sarfraz Shoukat,
-Dave Gandy, Google from [[http://www.flaticon.com][Flaticon]] are licensed by [[http://creativecommons.org/licenses/by/3.0/][Creative Commons BY
-3.0]].
+Icons8, Dave Gandy, Google from [[http://www.flaticon.com][Flaticon]] are licensed by [[http://creativecommons.org/licenses/by/3.0/][Creative
+Commons BY 3.0]].
 
 Test pattern [[http://commons.wikimedia.org/wiki/File:PM5544_with_non-PAL_signals.png#mediaviewer/File:PM5544_with_non-PAL_signals.png]["PM5544 with non-PAL signals"]] by Zacabeb - Own
 work. Licensed under Public domain via Wikimedia Commons.

@@ -35,6 +35,12 @@ void MainWindow::about()
         tr("foobar baz"));
 }
 
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    graphicWindow_->close();
+    event->accept();
+}
+
 void MainWindow::createActions()
 {
     openFileAct = new QAction(tr("&Open File"), this);

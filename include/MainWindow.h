@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+class QCloseEvent;
+
 namespace EyeTER {
     namespace ui {
 
@@ -29,6 +31,7 @@ public slots:
     void onOpen();
 
 private:
+    void closeEvent(QCloseEvent* event);
     void createActions();
     void createMenus();
 

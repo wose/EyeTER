@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class QToolButton;
+
 namespace EyeTER {
     namespace ui {
 
@@ -15,8 +17,17 @@ class GraphicWindow : public QWidget
  public:
     GraphicWindow(QWidget* parent = 0);
 
-private:
+ private slots:
+    void onPointer();
+    void onZoomIn();
+    void onZoomOut();
+
+ private:
     OpenGLWidget* openGLWidget_;
+
+    QToolButton* pointerBtn_;
+    QToolButton* zoomInBtn_;
+    QToolButton* zoomOutBtn_;
 };
 
 }
