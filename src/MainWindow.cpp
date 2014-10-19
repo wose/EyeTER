@@ -1,11 +1,11 @@
 #include <QtWidgets>
 #include <QMenuBar>
 #include <QFileDialog>
-#include <Qsci/qscilexercpp.h>
 
 #include "MainWindow.h"
 
 #include "Editor.h"
+#include "GraphicWindow.h"
 #include "ProgramEditorWidget.h"
 
 namespace EyeTER {
@@ -21,7 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     ProgramEditorWidget* programEditor = new ProgramEditorWidget(this);
     //    editor = new QsciScintilla(this);
     setCentralWidget(programEditor);
-    //    initializeEditor();
+    graphicWindow_ = new GraphicWindow;
+    graphicWindow_->show();
 }
 
 MainWindow::~MainWindow()

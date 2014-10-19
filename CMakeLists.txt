@@ -13,6 +13,7 @@ file(COPY ${CMAKE_SOURCE_DIR}/res
 )
 
 find_package(Qt5Widgets)
+find_package(Qt5OpenGL)
 find_package(OpenGL REQUIRED)
 find_package(OpenCV REQUIRED)
 

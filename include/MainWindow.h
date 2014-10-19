@@ -7,6 +7,7 @@ namespace EyeTER {
     namespace ui {
 
 class Editor;
+class GraphicWindow;
 
 class MainWindow : public QMainWindow
 {
@@ -39,7 +40,8 @@ private:
     QAction* exitAct;
     QAction* aboutAct;
 
-    Editor *editor;
+    Editor* editor;
+    GraphicWindow* graphicWindow_;
 };
 
 }
