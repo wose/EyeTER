@@ -1,3 +1,7 @@
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/core/opengl_interop.hpp>
+
 #include <QtWidgets>
 #include <QtOpenGL>
 
@@ -9,8 +13,10 @@ namespace EyeTER {
 OpenGLWidget::OpenGLWidget(QWidget* parent, QGLWidget* shareWidget)
     : QGLWidget(parent, shareWidget)
     , program_(0)
+    , zoomFactor_(1.0)
     , clearColor_(Qt::black)
 {
+    image_= cv::imread("res/test_pattern.png");
 }
 
 OpenGLWidget::~OpenGLWidget()
@@ -80,8 +86,7 @@ void OpenGLWidget::initializeGL()
     program_->bind();
     program_->setUniformValue("texture", 0);
 
-    texture_ = bindTexture(QPixmap("res/test_pattern.png"), GL_TEXTURE_2D);
-
+    texture_.copyFrom(image_);
     texCoords_.append(QVector2D(0, 1));
     texCoords_.append(QVector2D(1, 1));
     texCoords_.append(QVector2D(1, 0));
@@ -111,7 +116,7 @@ void OpenGLWidget::paintGL()
     program_->setAttributeArray
         (PROGRAM_TEXCOORD_ATTRIBUTE, texCoords_.constData());
 
-    glBindTexture(GL_TEXTURE_2D, texture_);
+    texture_.bind();
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 

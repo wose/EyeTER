@@ -1,6 +1,9 @@
 #ifndef _EYETER_OPENGL_WIDGET_H_
 #define _EYETER_OPENGL_WIDGET_H_
 
+#include <opencv2/core/core.hpp>
+#include <opencv2/core/opengl_interop.hpp>
+
 #include <QGLWidget>
 #include <QtGui/QOpenGLFunctions>
 
@@ -36,7 +39,10 @@ class OpenGLWidget : public QGLWidget, protected QOpenGLFunctions
     QColor clearColor_;
     QPoint lastPos_;
 
-    GLuint texture_;
+    float zoomFactor_;
+
+    cv::Mat image_;
+    cv::ogl::Texture2D texture_;
     QVector<QVector3D> vertices_;
     QVector<QVector2D> texCoords_;
     QGLShaderProgram* program_;
