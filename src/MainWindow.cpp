@@ -6,6 +6,7 @@
 
 #include "Editor.h"
 #include "GraphicWindow.h"
+#include "HistogramWindow.h"
 #include "ProgramEditorWidget.h"
 
 namespace EyeTER {
@@ -23,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(programEditor);
     graphicWindow_ = new GraphicWindow;
     graphicWindow_->show();
+
+    histogramWindow_ = new HistogramWindow;
+    histogramWindow_->show();
 
     readSettings();
 }
@@ -42,6 +46,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
     writeSettings();
 
     graphicWindow_->close();
+    histogramWindow_->close();
     event->accept();
 }
 
@@ -53,6 +58,8 @@ void MainWindow::writeSettings()
     settings.setValue("mainwindow/pos", pos());
     settings.setValue("graphicwindow/size", graphicWindow_->size());
     settings.setValue("graphicwindow/pos", graphicWindow_->pos());
+    settings.setValue("histogramwindow/size", histogramWindow_->size());
+    settings.setValue("histogramwindow/pos", histogramWindow_->pos());
 }
 
 void MainWindow::readSettings()
@@ -63,6 +70,8 @@ void MainWindow::readSettings()
     move(settings.value("mainwindow/pos", QPoint(200, 200)).toPoint());
     graphicWindow_->resize(settings.value("graphicwindow/size", QSize(200, 200)).toSize());
     graphicWindow_->move(settings.value("graphicwindow/pos", QPoint(0, 0)).toPoint());
+    histogramWindow_->resize(settings.value("histogramwindow/size", QSize(300, 100)).toSize());
+    histogramWindow_->move(settings.value("histogramwindow/pos", QPoint(0, 0)).toPoint());
 }
 
 void MainWindow::createActions()

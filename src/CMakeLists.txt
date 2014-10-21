@@ -3,6 +3,7 @@ set(EyeTER_SRC
   Editor.cpp
   GraphicWindow.cpp
   Highlighter.cpp
+  HistogramWindow.cpp
   main.cpp
   MainWindow.cpp
   OpenGLWidget.cpp
@@ -16,6 +17,7 @@ set(EyeTER_HDR
   ../include/EditorMarginArea.h
   ../include/GraphicWindow.h
   ../include/Highlighter.h
+  ../include/HistogramWindow.h
   ../include/MainWindow.h
   ../include/OpenGLWidget.h
   ../include/OperatorModel.h

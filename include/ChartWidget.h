@@ -12,6 +12,12 @@ class ChartWidget : public QWidget
 
  public:
     ChartWidget(QWidget* parent = 0);
+
+    QSize minimumSizeHint() const;
+    QSize sizeHint() const;
+
+ protected:
+    void paintEvent(QPaintEvent* event);
 };
 
 }

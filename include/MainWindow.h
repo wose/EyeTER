@@ -10,6 +10,7 @@ namespace EyeTER {
 
 class Editor;
 class GraphicWindow;
+class HistogramWindow;
 
 class MainWindow : public QMainWindow
 {
@@ -47,6 +48,7 @@ private:
 
     Editor* editor;
     GraphicWindow* graphicWindow_;
+    HistogramWindow* histogramWindow_;
 };
 
 }
