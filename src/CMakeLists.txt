@@ -1,4 +1,5 @@
 set(EyeTER_SRC
+  ChartWidget.cpp
   Editor.cpp
   GraphicWindow.cpp
   Highlighter.cpp
@@ -10,6 +11,7 @@ set(EyeTER_SRC
 )
 
 set(EyeTER_HDR
+  ../include/ChartWidget.h
   ../include/Editor.h
   ../include/EditorMarginArea.h
   ../include/GraphicWindow.h
