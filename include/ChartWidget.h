@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class QPainter;
+
 namespace EyeTER {
     namespace ui {
 
@@ -17,7 +19,10 @@ class ChartWidget : public QWidget
     QSize sizeHint() const;
 
  protected:
+    static const int margin = 5;
+
     void paintEvent(QPaintEvent* event);
+    void drawLegend(QPainter& painter);
 };
 
 }
