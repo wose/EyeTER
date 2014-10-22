@@ -2,6 +2,7 @@
 #define _EYETER_CHART_WIDGET_H_
 
 #include <QWidget>
+#include <vector>
 
 class QPainter;
 
@@ -19,10 +20,14 @@ class ChartWidget : public QWidget
     QSize sizeHint() const;
 
  protected:
-    static const int margin = 5;
-
     void paintEvent(QPaintEvent* event);
+
+ private:
+    void drawDataSets(QPainter& painter);
     void drawLegend(QPainter& painter);
+
+    static const int margin = 5;
+    std::vector<std::vector<long>> dataSets_;
 };
 
 }
