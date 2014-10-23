@@ -29,7 +29,9 @@ class ChartWidget : public QWidget
     std::vector<std::vector<long>> dataSets_;
     int lowerBound_;
     int upperBound_;
-    static const int margin = 5;
+
+    static const int margin = 15;
+    static const int tickLength = 5;
 };
 
 }

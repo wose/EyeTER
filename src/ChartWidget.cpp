@@ -50,14 +50,14 @@ void ChartWidget::drawLegend(QPainter& painter)
 
     for(int tick = 0; tick <= ticks; ++tick) {
         painter.drawLine(QPointF(margin + tick * tickPitch, height() - margin),
-            QPointF(margin + tick * tickPitch, height() - margin / 2));
+            QPointF(margin + tick * tickPitch, height() - margin + tickLength));
     }
 
     tickPitch = static_cast<float>(height() - 2 * margin) / ticks;
 
     for(int tick = 0; tick <= ticks; ++tick) {
         painter.drawLine(QPointF(margin, height() - margin - tick * tickPitch),
-            QPointF(margin / 2, height() - margin - tick * tickPitch));
+            QPointF(margin - tickLength, height() - margin - tick * tickPitch));
     }
 }
 
@@ -102,10 +102,31 @@ void ChartWidget::drawDataSets(QPainter& painter)
     painter.drawLine(lowerBound_ * scalingX, 0,
                      lowerBound_ * scalingX, -height() + 2*margin);
 
+    QPainterPath lowerLabel;
+    lowerLabel.moveTo(lowerBound_ * scalingX, -height() + 2 * margin);
+    lowerLabel.lineTo(lowerBound_ * scalingX - 4, -height() + 2 * margin - 4);
+    lowerLabel.lineTo(lowerBound_ * scalingX + 4, -height() + 2 * margin - 4);
+    painter.fillPath(lowerLabel, Qt::green);
+
+    painter.drawText(lowerBound_ * scalingX - 15, -height() + 2 * margin - 14,
+                     30, 10,
+                     Qt::AlignCenter, QString::number(lowerBound_));
+
     pen.setColor(Qt::red);
     painter.setPen(pen);
     painter.drawLine(upperBound_ * scalingX, 0,
                      upperBound_ * scalingX, -height() + 2*margin);
+
+    QPainterPath upperLabel;
+    upperLabel.moveTo(upperBound_ * scalingX, -height() + 2 * margin);
+    upperLabel.lineTo(upperBound_ * scalingX - 4, -height() + 2 * margin - 4);
+    upperLabel.lineTo(upperBound_ * scalingX + 4, -height() + 2 * margin - 4);
+    painter.fillPath(upperLabel, Qt::red);
+
+    painter.drawText(upperBound_ * scalingX - 15, -height() + 2 * margin - 14,
+                     30, 10,
+                     Qt::AlignCenter, QString::number(upperBound_));
+
 }
 
 QSize ChartWidget::minimumSizeHint() const
