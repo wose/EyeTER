@@ -26,8 +26,10 @@ class ChartWidget : public QWidget
     void drawDataSets(QPainter& painter);
     void drawLegend(QPainter& painter);
 
-    static const int margin = 5;
     std::vector<std::vector<long>> dataSets_;
+    int lowerBound_;
+    int upperBound_;
+    static const int margin = 5;
 };
 
 }
