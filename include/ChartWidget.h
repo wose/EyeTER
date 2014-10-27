@@ -24,6 +24,7 @@ class ChartWidget : public QWidget
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
     void paintEvent(QPaintEvent* event);
+    void resizeEvent(QResizeEvent* event);
 
  private:
     void drawDataSets(QPainter& painter);

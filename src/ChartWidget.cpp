@@ -15,8 +15,8 @@ ChartWidget::ChartWidget(QWidget* parent) :
     QWidget(parent),
     lowerBound_(0),
     upperBound_(256),
-    cursorX_(0),
-    cursorY_(0),
+    cursorX_(margin),
+    cursorY_(margin),
     movingUpperBound_(false),
     movingLowerBound_(false),
     scalingX_(1.0),
@@ -39,10 +39,16 @@ void ChartWidget::mouseMoveEvent(QMouseEvent* event)
     cursorY_ = std::max(std::min(event->y(), height() - margin),
                         static_cast<int>(margin));
 
-    if(movingLowerBound_)
+    if(movingLowerBound_) {
         lowerBound_ = (cursorX_ - margin) / scalingX_;
-    if(movingUpperBound_)
+        if(lowerBound_ > upperBound_)
+            upperBound_ = lowerBound_;
+    }
+    if(movingUpperBound_) {
         upperBound_ = (cursorX_ - margin) / scalingX_;
+        if(upperBound_ < lowerBound_)
+            lowerBound_ = upperBound_;
+    }
 
     update();
 }
@@ -50,8 +56,16 @@ void ChartWidget::mouseMoveEvent(QMouseEvent* event)
 void ChartWidget::mousePressEvent(QMouseEvent* event)
 {
     if(event->button() == Qt::LeftButton) {
-        if(std::abs(cursorX_ - margin - lowerBound_ * scalingX_) <
-           std::abs(cursorX_ - margin - upperBound_ * scalingX_)) {
+        if(lowerBound_ == upperBound_) {
+            if(cursorX_ <= lowerBound_) {
+                movingLowerBound_ = true;
+                lowerBound_ = (cursorX_ - margin) / scalingX_;
+            } else {
+                movingUpperBound_ = true;
+                upperBound_ = (cursorX_ - margin) / scalingX_;
+            }
+        } else if(std::abs(cursorX_ - margin - lowerBound_ * scalingX_) <=
+                  std::abs(cursorX_ - margin - upperBound_ * scalingX_)) {
             movingLowerBound_ = true;
             lowerBound_ = (cursorX_ - margin) / scalingX_;
         } else {
@@ -127,10 +141,6 @@ void ChartWidget::drawDataSets(QPainter& painter)
 
     auto minmax = std::minmax_element(dataSet.begin(), dataSet.end());
 
-    scalingX_ = static_cast<float>(width() - 2 * margin) / 256;
-    scalingY_ = static_cast<float>(height() - 2 * margin) /
-        (*minmax.second - *minmax.first);
-
     QPainterPath outOfROI, inROI;
     for(int idx = 0; idx < lowerBound_; ++idx) {
         outOfROI.addRect(scalingX_ * idx,
@@ -186,6 +196,18 @@ void ChartWidget::drawDataSets(QPainter& painter)
                      30, 10,
                      Qt::AlignCenter, QString::number(upperBound_));
 
+}
+
+void ChartWidget::resizeEvent(QResizeEvent* event)
+{
+    auto dataSet = dataSets_[0];
+    auto minmax = std::minmax_element(dataSet.begin(), dataSet.end());
+
+    scalingX_ = static_cast<float>(width() - 2 * margin) / 256;
+    scalingY_ = static_cast<float>(height() - 2 * margin) /
+        (*minmax.second - *minmax.first);
+
+    QWidget::resizeEvent(event);
 }
 
 QSize ChartWidget::minimumSizeHint() const
