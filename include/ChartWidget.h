@@ -28,6 +28,8 @@ class ChartWidget : public QWidget
 
  private:
     void drawDataSets(QPainter& painter);
+    void drawLabel(int value, QPainter& painter, int posX, int posY,
+                   QColor markerColor, int flags);
     void drawLegend(QPainter& painter);
     void drawCursor(QPainter& painter);
 
@@ -43,7 +45,7 @@ class ChartWidget : public QWidget
     bool movingLowerBound_;
     bool movingUpperBound_;
 
-    static const int margin = 15;
+    static const int margin = 30;
     static const int tickLength = 5;
 };
 

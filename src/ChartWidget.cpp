@@ -106,6 +106,35 @@ void ChartWidget::drawCursor(QPainter& painter)
 
     painter.drawLine(margin, cursorY_, width() - margin, cursorY_);
     painter.drawLine(cursorX_, margin, cursorX_, height() - margin);
+    drawLabel((cursorX_ - margin) / scalingX_, painter, cursorX_, margin,
+              QColor(Qt::black), Qt::AlignTop);
+    drawLabel((height() - cursorY_ - margin) / scalingY_, painter, margin,
+              cursorY_, QColor(Qt::black), Qt::AlignLeft);
+}
+
+void ChartWidget::drawLabel(int value, QPainter& painter, int posX, int posY,
+                            QColor markerColor, int flags)
+{
+    QPainterPath label;
+
+    if(flags & Qt::AlignTop) {
+        label.moveTo(posX, posY);
+        label.lineTo(posX - 4, posY - 4);
+        label.lineTo(posX + 4, posY - 4);
+
+        painter.drawText(posX - 15, posY - 14, 30, 10, Qt::AlignCenter,
+                         QString::number(value));
+    }
+    if(flags & Qt::AlignLeft) {
+        label.moveTo(posX, posY);
+        label.lineTo(posX - 4, posY - 4);
+        label.lineTo(posX - 4, posY + 4);
+
+        painter.drawText(posX - 34, posY - 5, 30, 10, Qt::AlignCenter,
+                         QString::number(value));
+    }
+
+    painter.fillPath(label, markerColor);
 }
 
 void ChartWidget::drawLegend(QPainter& painter)
@@ -167,35 +196,18 @@ void ChartWidget::drawDataSets(QPainter& painter)
     // draw user bounds
     QPen pen(Qt::green, 1);
     painter.setPen(pen);
-
     painter.drawLine(lowerBound_ * scalingX_, 0,
                      lowerBound_ * scalingX_, -height() + 2*margin);
-
-    QPainterPath lowerLabel;
-    lowerLabel.moveTo(lowerBound_ * scalingX_, -height() + 2 * margin);
-    lowerLabel.lineTo(lowerBound_ * scalingX_ - 4, -height() + 2 * margin - 4);
-    lowerLabel.lineTo(lowerBound_ * scalingX_ + 4, -height() + 2 * margin - 4);
-    painter.fillPath(lowerLabel, Qt::green);
-
-    painter.drawText(lowerBound_ * scalingX_ - 15, -height() + 2 * margin - 14,
-                     30, 10,
-                     Qt::AlignCenter, QString::number(lowerBound_));
+    drawLabel(lowerBound_, painter, lowerBound_ * scalingX_,
+              -height() + 2 * margin, QColor(Qt::green), Qt::AlignTop);
 
     pen.setColor(Qt::red);
     painter.setPen(pen);
     painter.drawLine(upperBound_ * scalingX_, 0,
                      upperBound_ * scalingX_, -height() + 2*margin);
 
-    QPainterPath upperLabel;
-    upperLabel.moveTo(upperBound_ * scalingX_, -height() + 2 * margin);
-    upperLabel.lineTo(upperBound_ * scalingX_ - 4, -height() + 2 * margin - 4);
-    upperLabel.lineTo(upperBound_ * scalingX_ + 4, -height() + 2 * margin - 4);
-    painter.fillPath(upperLabel, Qt::red);
-
-    painter.drawText(upperBound_ * scalingX_ - 15, -height() + 2 * margin - 14,
-                     30, 10,
-                     Qt::AlignCenter, QString::number(upperBound_));
-
+    drawLabel(upperBound_, painter, upperBound_ * scalingX_,
+              -height() + 2 * margin, QColor(Qt::red), Qt::AlignTop);
 }
 
 void ChartWidget::resizeEvent(QResizeEvent* event)
